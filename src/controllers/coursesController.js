@@ -1,18 +1,14 @@
 const express = require("express");
 
-const app = express();
-const port = process.env.PORT || 3000;
+const router = express.Router();
 
 const courses = [{ name: "course1", id: 1 }, { name: "course2", id: 2 }, { name: "course3" , id: 3 }];
 
-app.use(express.json());
-app.listen(port, () => console.log(`Listening on port ${port}`));
-
-app.get("/api/courses", (req, res) => {
+router.get("/courses", (req, res) => {
   res.send(courses);
 });
 
-app.get("/api/courses/:id", (req, res) => {
+router.get("/courses/:id", (req, res) => {
   const course = courses.find(
     (course) => course.id === parseInt(req.params.id)
   );
@@ -22,3 +18,5 @@ app.get("/api/courses/:id", (req, res) => {
   }
   res.send(course);
 });
+
+module.exports = app => app.use('/api', router);
